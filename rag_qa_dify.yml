@@ -1,0 +1,1241 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: rag_1117
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/siliconflow:0.0.34@1c203017d8ef49fd9152696a42e6dc71ecf272b115d8caf731c99ee0d2956dce
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.1.0@a2dd9bb656a2722292e8936f3287d53ba176cfbbe9b8bfafc596d4a2ddd99eb2
+    version: null
+kind: app
+version: 0.4.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1763361675335-source-1763362113268-target
+      selected: false
+      source: '1763361675335'
+      sourceHandle: source
+      target: '1763362113268'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1763362113268-source-1763365957228-target
+      selected: false
+      source: '1763362113268'
+      sourceHandle: source
+      target: '1763365957228'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: knowledge-retrieval
+      id: 1763366107839-1-1763366129870-target
+      selected: false
+      source: '1763366107839'
+      sourceHandle: '1'
+      target: '1763366129870'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: llm
+      id: 1763366107839-2-1763366150750-target
+      selected: false
+      source: '1763366107839'
+      sourceHandle: '2'
+      target: '1763366150750'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1763365957228-source-1763366184455-target
+      selected: false
+      source: '1763365957228'
+      sourceHandle: source
+      target: '1763366184455'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: question-classifier
+      id: 1763366184455-true-1763366107839-target
+      selected: false
+      source: '1763366184455'
+      sourceHandle: 'true'
+      target: '1763366107839'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: end
+      id: 1763366184455-false-1763366197875-target
+      selected: false
+      source: '1763366184455'
+      sourceHandle: 'false'
+      target: '1763366197875'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1763366150750-source-1763367002007-target
+      selected: false
+      source: '1763366150750'
+      sourceHandle: source
+      target: '1763367002007'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1763366129870-source-1763367195125-target
+      selected: false
+      source: '1763366129870'
+      sourceHandle: source
+      target: '1763367195125'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1763367195125-source-1763368075740-target
+      selected: false
+      source: '1763367195125'
+      sourceHandle: source
+      target: '1763368075740'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: loop
+      id: 1763368075740-source-1763368375230-target
+      selected: false
+      source: '1763368075740'
+      sourceHandle: source
+      target: '1763368375230'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        sourceType: loop-start
+        targetType: llm
+      id: 1763368375230start-source-1763368482856-target
+      selected: false
+      source: 1763368375230start
+      sourceHandle: source
+      target: '1763368482856'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        sourceType: llm
+        targetType: code
+      id: 1763368482856-source-1763368517202-target
+      selected: false
+      source: '1763368482856'
+      sourceHandle: source
+      target: '1763368517202'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        sourceType: code
+        targetType: if-else
+      id: 1763368517202-source-1763368548981-target
+      selected: false
+      source: '1763368517202'
+      sourceHandle: source
+      target: '1763368548981'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        sourceType: if-else
+        targetType: llm
+      id: 1763368548981-true-1763368578143-target
+      selected: false
+      source: '1763368548981'
+      sourceHandle: 'true'
+      target: '1763368578143'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        sourceType: if-else
+        targetType: loop-end
+      id: 1763368548981-false-1763368603552-target
+      selected: false
+      source: '1763368548981'
+      sourceHandle: 'false'
+      target: '1763368603552'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        sourceType: llm
+        targetType: code
+      id: 1763368578143-source-1763368621379-target
+      selected: false
+      source: '1763368578143'
+      sourceHandle: source
+      target: '1763368621379'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        sourceType: code
+        targetType: assigner
+      id: 1763368621379-source-1763368644487-target
+      selected: false
+      source: '1763368621379'
+      sourceHandle: source
+      target: '1763368644487'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: loop
+        targetType: llm
+      id: 1763368375230-source-1763368671011-target
+      selected: false
+      source: '1763368375230'
+      sourceHandle: source
+      target: '1763368671011'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1763368671011-source-1763368685028-target
+      selected: false
+      source: '1763368671011'
+      sourceHandle: source
+      target: '1763368685028'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: end
+      id: 1763368685028-source-1763368706643-target
+      selected: false
+      source: '1763368685028'
+      sourceHandle: source
+      target: '1763368706643'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - default: ''
+          hint: ''
+          label: query
+          max_length: 256
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: query
+        - default: ''
+          hint: ''
+          label: source_chunk
+          max_length: 5000
+          options: []
+          placeholder: ''
+          required: false
+          type: paragraph
+          variable: source_chunk
+      height: 114
+      id: '1763361675335'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen3-vl-32b-thinking
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 501cfc64-d860-475c-b5bf-793131a9aeb2
+          role: system
+          text: "你是一个问答评估助手，负责判断在给定【上下文】的情况下，是否可以合理回答指定的【问题】。\n\n你的任务：\n- 根据提供的上下文，判断“是否有足够信息可以给出一个合理回答”。\n\
+            - 标准不要过于严格，只要大致可以作答，就算可以回答。\n\n请只输出一个 JSON 对象，不要添加多余说明，格式如下：\n{\n  \"\
+            is_valid\": true 或 false,\n  \"reason\": \"用一两句话简单说明原因\"\n}\n\n评估维度（按宽松标准）：\n\
+            1. 完整性：上下文是否包含与问题相关的核心信息，至少能支撑一个大致正确或合理的回答。\n2. 可回答性：不是那种明显“超出上下文范围、需要额外常识或外部知识才能回答”的问题；如果只靠上下文完全答不出来，判为\
+            \ false。\n3. 歧义性：如果问题严重歧义、无法判断它在问什么，且上下文也无法消除歧义，则判为 false；如果能够给出一个合理解释方向，则可以判为\
+            \ true。\n\n具体规则：\n- 若上下文中出现了与问题直接相关的事实、定义、结论或推理线索 → 通常判为 true。\n- 若上下文完全没有涉及相关主题，或只是一点点模糊关联，无法支撑回答\
+            \ → 判为 false。\n- 若只是缺少一些细枝末节，但主体信息齐全 → 仍然判为 true。\n- 不需要考虑答案是否优美，只关注“是否有信息可以回答”。\n\
+            \n待评估的问题：\n{{#1763361675335.query#}}\n\n请基于上述规则输出 JSON。\n"
+        selected: false
+        title: 问题合格判断
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1763362113268'
+      position:
+        x: 380.4842834334896
+        y: 282
+      positionAbsolute:
+        x: 380.4842834334896
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import json\nimport re\n\ndef strip_think_block(text: str) -> str:\n\
+          \    \"\"\"去掉 <think>...</think>。\"\"\"\n    pattern = re.compile(r\"<think>.*?</think>\"\
+          , re.DOTALL | re.IGNORECASE)\n    return pattern.sub(\"\", text).strip()\n\
+          \ndef strip_code_fence(text: str) -> str:\n    \"\"\"去掉 ```json / ``` 等代码块标记。\"\
+          \"\"\n    text = text.strip()\n    # 去开头 ```xxx\n    text = re.sub(r\"^```[a-zA-Z0-9_]*\"\
+          , \"\", text).strip()\n    # 去结尾 ```\n    text = re.sub(r\"```$\", \"\"\
+          , text).strip()\n    return text\n\ndef parse_json_loose(text: str) -> dict:\n\
+          \    \"\"\"宽松解析 JSON：先整体 parse，失败再从中提取 {...}。\"\"\"\n    text = text.strip()\n\
+          \    # 直接 parse\n    try:\n        data = json.loads(text)\n        if isinstance(data,\
+          \ dict):\n            return data\n    except Exception:\n        pass\n\
+          \n    # 提取第一段 {...}\n    m = re.search(r\"\\{.*\\}\", text, re.DOTALL)\n\
+          \    if m:\n        try:\n            data = json.loads(m.group(0))\n  \
+          \          if isinstance(data, dict):\n                return data\n   \
+          \     except Exception:\n            pass\n\n    return {}\n\ndef main(response:\
+          \ str) -> dict:\n    \"\"\"\n    输入:\n        response: 评估 LLM 的完整输出（可能含\
+          \ <think>、```json``` 等）\n    输出:\n        is_valid: \"true\" or \"false\"\
+          \ 字符串\n    \"\"\"\n    if response is None:\n        response = \"\"\n \
+          \   text = response.strip()\n\n    # 1. 去掉思维链\n    text = strip_think_block(text)\n\
+          \n    # 2. 去掉代码块包裹\n    text = strip_code_fence(text)\n\n    # 3. 解析 JSON\n\
+          \    data = parse_json_loose(text)\n\n    # 4. 提取 is_valid，并转成字符串\n    is_valid_bool\
+          \ = False\n    if isinstance(data, dict) and \"is_valid\" in data:\n   \
+          \     v = data[\"is_valid\"]\n        if isinstance(v, bool):\n        \
+          \    is_valid_bool = v\n        elif isinstance(v, str):\n            is_valid_bool\
+          \ = v.strip().lower() in (\"true\", \"1\", \"yes\", \"y\")\n\n    return\
+          \ {\n        \"is_valid\": \"true\" if is_valid_bool else \"false\"\n  \
+          \  }\n"
+        code_language: python3
+        outputs:
+          clean_response:
+            children: null
+            type: string
+          is_valid:
+            children: null
+            type: string
+          raw_json:
+            children: null
+            type: string
+          reason:
+            children: null
+            type: string
+        selected: false
+        title: 合格判断结果提取
+        type: code
+        variables:
+        - value_selector:
+          - '1763362113268'
+          - text
+          value_type: string
+          variable: response
+      height: 52
+      id: '1763365957228'
+      position:
+        x: 684
+        y: 282
+      positionAbsolute:
+        x: 684
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        classes:
+        - id: '1'
+          name: 与航天领域直接或间接相关的问题
+        - id: '2'
+          name: 其他
+        instructions: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen3-vl-8b-thinking
+          provider: langgenius/tongyi/tongyi
+        query_variable_selector:
+        - '1763361675335'
+        - query
+        selected: false
+        title: 问题分类器
+        type: question-classifier
+        vision:
+          enabled: false
+      height: 170
+      id: '1763366107839'
+      position:
+        x: 1428.5068543634727
+        y: 282
+      positionAbsolute:
+        x: 1428.5068543634727
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - bwuUJyzBKR/eDVpWlGXu+sSboBMXljKhY4qESQS5n8/SVANpQxHcl37BsKvGlxfa
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: netease-youdao/bce-reranker-base_v1
+            provider: langgenius/siliconflow/siliconflow
+          top_k: 4
+        query_variable_selector:
+        - '1763361675335'
+        - query
+        retrieval_mode: multiple
+        selected: false
+        title: 蒸馏阶段知识检索
+        type: knowledge-retrieval
+      height: 90
+      id: '1763366129870'
+      position:
+        x: 1781.967662883615
+        y: 320.2657294124139
+      positionAbsolute:
+        x: 1781.967662883615
+        y: 320.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen3-vl-8b-thinking
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 0ad6bcef-2e34-4b3a-bc1e-a827e2aec64e
+          role: system
+          text: 你是一个通用的助手，请根据问题深入思考以后给出准确、专业、全面、系统、有深度的回答。
+        - id: dedc6534-6ea1-465b-8045-d43a59cf9adf
+          role: user
+          text: 请回答一下问题{{#1763361675335.query#}}
+        selected: false
+        title: 通用问题回答
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1763366150750'
+      position:
+        x: 1781.967662883615
+        y: 487.7971882372418
+      positionAbsolute:
+        x: 1781.967662883615
+        y: 487.7971882372418
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: contains
+            id: e11d51bd-4c91-454b-bdcd-12d6c0dfa5bf
+            value: 'true'
+            varType: string
+            variable_selector:
+            - '1763365957228'
+            - is_valid
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 124
+      id: '1763366184455'
+      position:
+        x: 1055.752459170974
+        y: 282
+      positionAbsolute:
+        x: 1055.752459170974
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1763365957228'
+          - is_valid
+          value_type: string
+          variable: is_valid
+        - value_selector:
+          - '1763362113268'
+          - text
+          value_type: string
+          variable: text
+        selected: false
+        title: 问题不合格
+        type: end
+      height: 114
+      id: '1763366197875'
+      position:
+        x: 1786.093498182927
+        y: 663.5237261697987
+      positionAbsolute:
+        x: 1786.093498182927
+        y: 663.5237261697987
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1763366150750'
+          - text
+          value_type: string
+          variable: text
+        - value_selector:
+          - '1763365957228'
+          - is_valid
+          value_type: string
+          variable: is_valid
+        - value_selector:
+          - '1763366107839'
+          - class_name
+          value_type: string
+          variable: class_name
+        selected: false
+        title: 通用问题蒸馏
+        type: end
+      height: 140
+      id: '1763367002007'
+      position:
+        x: 2085.967662883615
+        y: 487.7971882372418
+      positionAbsolute:
+        x: 2085.967662883615
+        y: 487.7971882372418
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1763366129870'
+          - result
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: Pro/deepseek-ai/DeepSeek-R1
+          provider: langgenius/siliconflow/siliconflow
+        prompt_config:
+          jinja2_variables: []
+        prompt_template:
+        - edition_type: basic
+          id: 035fb2c1-eaed-4c68-bc09-70840a86a357
+          role: system
+          text: "你是一名航天领域的资深专家与技术写作者，擅长把复杂的工程技术问题讲解得严谨、系统又通俗。\n\n回答总体要求：\n1. 专业准确\
+            \  \n   - 优先以上下文中的事实和结论为依据，必要时可以结合常识和合理推理进行补充。  \n   - 避免明显与上下文相矛盾的内容，不要瞎编具体数字、型号、公式。\n\
+            \n2. 全面系统  \n   - 先给出简洁结论，再分条解释原因、原理、关键步骤或影响因素。  \n   - 能分层组织的，尽量用「1.\
+            \ 2. 3.」或「（1）（2）（3）」等结构化方式呈现，方便后续作为训练数据使用。\n\n3. 逻辑清晰、可读性好  \n   - 段落清晰，避免长句堆砌；对重要概念可以先下定义再展开。\
+            \  \n   - 尽量用自然语言解释原理，而不是只给出符号和堆叠名词。\n\n4. 不暴露“系统内部信息”  \n   - 不要出现诸如“根据检索到的文档”“根据上文片段”“RAG\
+            \ 系统”“知识库”“蒸馏数据”等描述。  \n   - 把回答写成像是直接面向读者的专业解答，而不是在说明你是如何检索到信息的。\n\n\
+            5. 信息不足时的处理  \n   - 如果上下文无法支撑精确结论，可以给出「大致范围」「一般做法」「典型方案」，并说明存在不确定性。  \n\
+            \   - 实在无法回答时，可以明确说明“从现有资料无法确定”，不要编造细节。\n\n输出语言：\n- 使用简体中文回答。\n- 不输出思考过程说明句（例如“我将从三个方面分析”可以保留，但不要解释你在用什么模型或策略）。\n\
+            \n"
+        - id: 200b9b53-bbc8-4c3a-a529-4ba144b14281
+          role: user
+          text: '你的任务：
+
+            - 结合提供的{{#context#}}与{{#1763361675335.query#}}进行深入思考；
+
+            - 在不暴露“检索”“知识库”“RAG”“蒸馏”等技术细节的前提下，输出一份适合作为教学示例的高质量回答。
+
+
+            请你按照 SYSTEM 中的要求，基于上述知识片段，对这个问题给出一份专业、全面、结构清晰的回答。
+
+            如果多个片段之间存在差异，请尽量给出合理的归纳与解释。'
+        selected: false
+        title: 航天RAG知识蒸馏
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1763367195125'
+      position:
+        x: 2083.967662883615
+        y: 320.2657294124139
+      positionAbsolute:
+        x: 2083.967662883615
+        y: 320.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(rag_distill_response: str) -> dict:\n    \"\"\"\n    输入：\n\
+          \        rag_distill_response: 上游 RAG 蒸馏节点的完整输出（含 <think> 标签）\n    输出：\n\
+          \        answer: 去掉 <think> 思维链后的最终回答\n        cot:    <think>...</think>\
+          \ 中的思维链内容\n    \"\"\"\n\n    if rag_distill_response is None:\n        rag_distill_response\
+          \ = \"\"\n\n    text = rag_distill_response.strip()\n    cot = \"\"\n  \
+          \  answer = text\n\n    # 同时存在 <think> 和 </think> 才拆分\n    if \"<think>\"\
+          \ in text and \"</think>\" in text:\n        start_index = text.find(\"\
+          <think>\")\n        end_index = text.find(\"</think>\", start_index)\n\n\
+          \        if end_index != -1:\n            # 取出思维链\n            cot = text[start_index\
+          \ + len(\"<think>\"): end_index].strip()\n            # 取出思维链后面的内容作为最终回答\n\
+          \            answer = text[end_index + len(\"</think>\"):].strip()\n\n \
+          \   # 返回给 Dify 的输出变量，名字要和下面配置里的输出变量一致\n    return {\n        \"answer\"\
+          : answer,\n        \"cot\": cot,\n    }\n"
+        code_language: python3
+        outputs:
+          answer:
+            children: null
+            type: string
+          cot:
+            children: null
+            type: string
+        selected: false
+        title: COT与ANSWER分离
+        type: code
+        variables:
+        - value_selector:
+          - '1763367195125'
+          - text
+          value_type: string
+          variable: rag_distill_response
+      height: 52
+      id: '1763368075740'
+      position:
+        x: 2384.4519463171046
+        y: 320.2657294124139
+      positionAbsolute:
+        x: 2384.4519463171046
+        y: 320.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        break_conditions: []
+        error_handle_mode: terminated
+        height: 453
+        logical_operator: and
+        loop_count: 5
+        loop_variables:
+        - id: 6c32f350-dfd2-433e-8621-ccdd1ecd72f9
+          label: answer
+          value:
+          - '1763368075740'
+          - answer
+          value_type: variable
+          var_type: string
+        selected: false
+        start_node_id: 1763368375230start
+        title: 循环
+        type: loop
+        width: 1896
+      height: 453
+      id: '1763368375230'
+      position:
+        x: 2707.5991667145195
+        y: 320.2657294124139
+      positionAbsolute:
+        x: 2707.5991667145195
+        y: 320.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 1896
+      zIndex: 1
+    - data:
+        desc: ''
+        isInLoop: true
+        selected: false
+        title: ''
+        type: loop-start
+      draggable: false
+      height: 48
+      id: 1763368375230start
+      parentId: '1763368375230'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 2731.5991667145195
+        y: 388.2657294124139
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-loop-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1763366129870'
+          - result
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen3-vl-32b-thinking
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 202478ba-eeb6-4bbd-ac4c-09ba5e825b00
+          role: system
+          text: '你是一名航天领域的问答质检专家。现在需要你根据{{#context#}}和{{#1763361675335.query#}}进行准确性与全面性检查。
+
+
+            你的任务：
+
+            1. 对照相关文本，检查回答中是否有明显错误或与文本矛盾之处。
+
+            2. 标记回答中与文本无关、推断过度或明显瞎编的内容。
+
+            3. 检查回答是否覆盖了文本中与问题紧密相关的关键信息，避免遗漏重要点。
+
+            4. 可以适当概括、合并同类项，但不要引入文本中没有依据的新结论。
+
+
+            最终请输出结构化结论（例如：是否通过校验、错误点/遗漏点简要说明），语言使用简体中文。'
+        selected: false
+        title: 准确性与全面性校验
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1763368482856'
+      parentId: '1763368375230'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 2835.5991667145195
+        y: 388.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "def main(response: str) -> dict:\n    \"\"\"\n    输入:\n        response:\
+          \ 质检 LLM 的完整输出（可能包含 <think>...</think> 和 check_passed / check_failed）\n\
+          \    输出:\n        check_passed: \"true\" / \"false\" 字符串，用于后续条件分支\n    \"\
+          \"\"\n    if response is None:\n        response = \"\"\n\n    text = response.strip()\n\
+          \n    # 1. 去掉 <think>...</think> 思维链，只保留真正的结论部分\n    if \"<think>\" in text\
+          \ and \"</think>\" in text:\n        end_index = text.find(\"</think>\"\
+          )\n        text = text[end_index + len(\"</think>\"):].strip()\n\n    #\
+          \ 2. 判断是否通过校验\n    # 有 check_passed 就认为通过；有 check_failed 就认为未通过；\n    #\
+          \ 如果都没有，默认未通过（你也可以按需改成默认通过）\n    passed = \"false\"\n    if \"check_passed\"\
+          \ in text:\n        passed = \"true\"\n    elif \"check_failed\" in text:\n\
+          \        passed = \"false\"\n\n    # 3. 返回给 Dify，变量名要和下方“输出变量”配置一致\n   \
+          \ return {\n        \"check_passed\": passed\n    }\n"
+        code_language: python3
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        outputs:
+          check_passed:
+            children: null
+            type: string
+        selected: false
+        title: 校验回答提取
+        type: code
+        variables:
+        - value_selector:
+          - '1763368482856'
+          - text
+          value_type: string
+          variable: response
+      height: 52
+      id: '1763368517202'
+      parentId: '1763368375230'
+      position:
+        x: 431.14869835499667
+        y: 68
+      positionAbsolute:
+        x: 3138.747865069516
+        y: 388.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: contains
+            id: d05a5fa3-e387-43f9-94a0-e222ea3ca186
+            value: check_passed
+            varType: string
+            variable_selector:
+            - '1763368517202'
+            - check_passed
+          id: 'true'
+          logical_operator: and
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        selected: false
+        title: 校验通过判定
+        type: if-else
+      height: 124
+      id: '1763368548981'
+      parentId: '1763368375230'
+      position:
+        x: 745.6414490985935
+        y: 68.03143313302076
+      positionAbsolute:
+        x: 3453.240615813113
+        y: 388.2971625454347
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1763366129870'
+          - result
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen3-vl-32b-thinking
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: d401be78-a3b5-4b69-95d4-2cc628c85278
+          role: system
+          text: "你是一名航天领域的问答改写专家。\n\n现在有一个「针对某个问题的回答」在准确性与全面性校验中未通过。\n请你综合下面提供的信息：问题、问题来源文本、原始回答、参考文本，以及未通过校验的原因，重新写出一个符合要求的高质量回答。\n\
+            \n-------------------------\n【待解决的问题】：\n{{#1763361675335.query#}}\n\n\
+            【问题相关来源文本】：\n{{#1763361675335.source_chunk#}}\n\n【原始回答】：\n{{#1763368375230.answer#}}\n\
+            \n【可供参考的其他文本】：\n{{#context#}}\n\n【未通过校验的原因】：\n{{#1763368482856.text#}}\n\
+            -------------------------\n\n在改写过程中，请严格遵守以下规则：\n\n1. 对于「未通过校验原因」中指出的问题，必须结合参考文本进行严谨修改，修正错误或补足缺失信息。\n\
+            2. 对于未被指出问题的部分，也要结合参考文本，在保证真实性和专业性的前提下适当补充和润色，使内容更加清晰、完整。\n3. 改写后的回答要：\n\
+            \   - 覆盖与问题密切相关的关键信息；\n   - 结构清晰、层次分明，可以按条目或步骤展开；\n   - 在保证信息充分的前提下尽量精炼，不要堆砌无关内容。\n\
+            4. 若涉及条件、步骤、流程或多种方案，可以先给出整体结论，再分点说明，再做一个简要总结。\n5. 删除原回答中冗余、模糊、逻辑不清或明显不确定的表述。\n\
+            6. 回答中不要出现类似“在文本中”“在上述片段里”这类对具体段落的元引用，但可以直接引用其中的事实、结论和数据。\n7. 若回答中包含公式或数学表达，请使用兼容\
+            \ Markdown 的格式书写。\n8. 请直接给出改写后的最终回答，不要解释你的思考过程，不要出现类似“以下是改写后的答案”或者”文中XX“且不要出现”check_passed“等类似字样。\n"
+        selected: false
+        title: 回答改写
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1763368578143'
+      parentId: '1763368375230'
+      position:
+        x: 1035.7411011265922
+        y: 66.25889887340776
+      positionAbsolute:
+        x: 3743.3402678411117
+        y: 386.5246282858217
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        selected: false
+        title: 退出循环
+        type: loop-end
+      height: 54
+      id: '1763368603552'
+      parentId: '1763368375230'
+      position:
+        x: 1034
+        y: 195
+      positionAbsolute:
+        x: 3741.5991667145195
+        y: 515.265729412414
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-simple
+      width: 244
+      zIndex: 1002
+    - data:
+        code: "def main(rewritten_respc: str) -> dict:\n    \"\"\"\n    输入：\n    \
+          \    rewritten_respc: 改写节点的完整输出（可能包含 <think>...</think> 和 check_passed）\n\
+          \    输出：\n        answer: 去掉思维链和标记之后的最终答案\n    \"\"\"\n    if rewritten_respc\
+          \ is None:\n        rewritten_respc = \"\"\n\n    text = rewritten_respc.strip()\n\
+          \n    # 如果包含 <think>...</think>，只取后半段作为答案\n    if \"<think>\" in text and\
+          \ \"</think>\" in text:\n        end_index = text.find(\"</think>\")\n \
+          \       answer = text[end_index + len(\"</think>\"):].strip()\n    else:\n\
+          \        answer = text\n\n    # 去掉用于标记的 check_passed（防止写在中间多次出现，统一清一下）\n\
+          \    answer = answer.replace(\"check_passed\", \"\").strip()\n\n    return\
+          \ {\n        \"answer\": answer\n    }\n"
+        code_language: python3
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1763368375230'
+        outputs:
+          answer:
+            children: null
+            type: string
+        selected: true
+        title: 改写后answer提取
+        type: code
+        variables:
+        - value_selector:
+          - '1763368578143'
+          - text
+          value_type: string
+          variable: rewritten_response
+      height: 52
+      id: '1763368621379'
+      parentId: '1763368375230'
+      position:
+        x: 1336
+        y: 68
+      positionAbsolute:
+        x: 4043.5991667145195
+        y: 388.2657294124139
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1763368621379'
+          - answer
+          variable_selector:
+          - '1763368375230'
+          - answer
+          write_mode: over-write
+        loop_id: '1763368375230'
+        selected: false
+        title: 变量赋值
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1763368644487'
+      parentId: '1763368375230'
+      position:
+        x: 1638
+        y: 68
+      positionAbsolute:
+        x: 4345.599166714519
+        y: 388.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen3-vl-32b-thinking
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 04daa0c1-f340-4d91-9eb9-2649844480b1
+          role: system
+          text: "你是一名负责“思维链优化”的助手。\n\n现在给你：\n- 问题：{{#1763361675335.query#}}\n- 问题来源文本：{{#1763361675335.source_chunk#}}\n\
+            - 原始答案：{{#1763368375230.answer#}}\n- 原始思维链：{{#1763368075740.cot#}}\n\n\
+            你的任务：在不改变结论方向的前提下，基于问题与相关文本，改写并优化这条思维链，使其更清晰、逻辑更严谨，可作为训练用的推理过程。\n\n请严格遵守以下要求：\n\
+            1. 只输出优化后的思维链，不要输出答案本身，也不要解释你在做什么。\n2. 思维链必须围绕上述“问题”展开，步骤清晰、有因有果，能合理推导出原始答案。\n\
+            3. 不要出现下列内容：\n   - “优化后的思维链”“如下所示”“根据上文/原文/片段”等元描述；\n   - 对未来模型的指导语（如“模型应该先做什么再做什么”）；\n\
+            \   - 任何控制标记，如 `check_passed`、`check_failed` 等；\n   - Markdown 语法结构（标题、列表符号等），只用自然段或简单编号说明。\n\
+            4. 如需引用问题来源文本中的信息，请直接用自然语言描述，不要写成“在文本中提到……”。\n\n请直接输出一段连续、自然的思维链文本。\n"
+        selected: false
+        title: COT改写
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1763368671011'
+      position:
+        x: 4691.789047229225
+        y: 320.2657294124139
+      positionAbsolute:
+        x: 4691.789047229225
+        y: 320.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(rewritten_cot: str, answer: str) -> dict:\n    \"\"\"\n  \
+          \  输入：\n        rewritten_cot: CoT 改写节点的输出（可能包含或不包含 <think> 标签）\n      \
+          \  answer: 最终要保留的回答内容\n    输出：\n        combine_answer: 按 <think>思维链</think>\
+          \ + 回答 组合后的整体结果\n    \"\"\"\n    if rewritten_cot is None:\n        rewritten_cot\
+          \ = \"\"\n    if answer is None:\n        answer = \"\"\n\n    cot_text\
+          \ = rewritten_cot.strip()\n\n    # 如果模型又自己包了一层 <think>...</think>，先把内部内容取出来\n\
+          \    if \"<think>\" in cot_text and \"</think>\" in cot_text:\n        start_index\
+          \ = cot_text.find(\"<think>\") + len(\"<think>\")\n        end_index = cot_text.find(\"\
+          </think>\", start_index)\n        if end_index != -1:\n            cot_text\
+          \ = cot_text[start_index:end_index].strip()\n\n    # 再保险一次：去掉可能残留的标签\n \
+          \   cot_text = cot_text.replace(\"<think>\", \"\").replace(\"</think>\"\
+          , \"\").strip()\n\n    # 组合成带思维链的完整输出\n    combined = f\"<think>{cot_text}</think>\\\
+          n{answer.strip()}\"\n\n    return {\n        \"combine_answer\": combined\n\
+          \    }\n"
+        code_language: python3
+        outputs:
+          combine_answer:
+            children: null
+            type: string
+        selected: false
+        title: 改写后COT提取RESULT
+        type: code
+        variables:
+        - value_selector:
+          - '1763368671011'
+          - text
+          value_type: string
+          variable: rewritten_cot
+        - value_selector:
+          - '1763368375230'
+          - answer
+          value_type: string
+          variable: answer
+      height: 52
+      id: '1763368685028'
+      position:
+        x: 4968.831808846315
+        y: 320.2657294124139
+      positionAbsolute:
+        x: 4968.831808846315
+        y: 320.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1763368685028'
+          - combine_answer
+          value_type: string
+          variable: text
+        - value_selector:
+          - '1763365957228'
+          - is_valid
+          value_type: string
+          variable: query_is_valid
+        - value_selector:
+          - '1763368075740'
+          - cot
+          value_type: string
+          variable: first_rag_answer
+        - value_selector:
+          - '1763366129870'
+          - result
+          value_type: array[object]
+          variable: distill_rag
+        - value_selector:
+          - '1763366107839'
+          - class_name
+          value_type: string
+          variable: query_class_name
+        selected: false
+        title: 改写结果
+        type: end
+      height: 192
+      id: '1763368706643'
+      position:
+        x: 5245.683995581579
+        y: 320.2657294124139
+      positionAbsolute:
+        x: 5245.683995581579
+        y: 320.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -2689.2353238231294
+      y: -18.406250157818818
+      zoom: 0.8705505632961257
+  rag_pipeline_variables: []

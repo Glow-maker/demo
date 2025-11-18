@@ -10,6 +10,8 @@
 - 支持断点续传
 - 完整的错误处理和日志记录
 - 流式输出结果（实时保存）
+- 结果分析工具（统计报告）
+- 模板生成器（快速创建输入文件）
 
 ## 工作流说明
 
@@ -52,7 +54,26 @@ python rag_distillation.py --api-key your-dify-api-key-here --input data.jsonl -
 
 ## 使用方法
 
+### 快速开始
+
+使用 setup.sh 脚本快速设置环境：
+
+```bash
+bash setup.sh
+```
+
 ### 准备输入数据
+
+**方法 1：使用模板生成器**
+
+```bash
+# 生成 10 行模板
+python generate_template.py --output my_data.jsonl --count 10
+
+# 然后编辑 my_data.jsonl，填写实际的问题和文本片段
+```
+
+**方法 2：手动创建**
 
 创建一个 JSONL 文件（每行一个 JSON 对象），包含以下字段：
 
@@ -140,7 +161,22 @@ python rag_distillation.py --input data.jsonl --output results.jsonl --delay 2.0
 
 ## 示例
 
-处理示例数据：
+### 完整工作流示例
+
+```bash
+# 1. 生成输入模板
+python generate_template.py --output my_questions.jsonl --count 20
+
+# 2. 编辑 my_questions.jsonl，填写问题和文本片段
+
+# 3. 运行批量处理
+python rag_distillation.py --input my_questions.jsonl --output my_results.jsonl
+
+# 4. 分析结果
+python analyze_results.py my_results.jsonl
+```
+
+### 处理示例数据
 
 ```bash
 # 使用环境变量中的 API Key
@@ -152,6 +188,9 @@ python rag_distillation.py \
   --output sample_results.jsonl \
   --api-key sk-xxxxx \
   --delay 1.5
+
+# 分析示例结果
+python analyze_results.py sample_results.jsonl
 ```
 
 ## 故障排除
@@ -183,10 +222,33 @@ Error: API key not found. Please set DIFY_KEY environment variable or use --api-
 .
 ├── README.md                 # 项目文档
 ├── rag_qa_dify.yml          # Dify 工作流配置
-├── rag_distillation.py      # 批量处理脚本
+├── rag_distillation.py      # 批量处理脚本（主程序）
+├── analyze_results.py       # 结果分析工具
+├── generate_template.py     # 输入模板生成器
+├── setup.sh                 # 快速设置脚本
 ├── sample_data.jsonl        # 示例输入数据
-└── requirements.txt         # Python 依赖
+├── requirements.txt         # Python 依赖
+└── .gitignore              # Git 忽略文件配置
 ```
+
+## 工具说明
+
+### rag_distillation.py
+主要的批量处理脚本，负责调用 Dify API 处理问题和文本片段。
+
+### analyze_results.py
+分析处理结果，生成统计报告，包括：
+- 成功/失败统计
+- 质量分数分布
+- 问题分类统计
+- 答案长度分析
+- 错误类型统计
+
+### generate_template.py
+快速生成输入数据模板，方便用户填写。
+
+### setup.sh
+一键设置脚本，自动安装依赖并配置环境。
 
 ## 许可证
 

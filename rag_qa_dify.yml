@@ -1,9 +1,9 @@
 app:
-  description: ''
+  description: RAG增强检索QA蒸馏工作流 - 完全优化版，包含质量评分、错误处理、优化的循环逻辑
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: workflow
-  name: rag_1117
+  name: rag_qa_optimized
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -183,32 +183,6 @@ workflow:
       zIndex: 0
     - data:
         isInIteration: false
-        isInLoop: false
-        sourceType: llm
-        targetType: code
-      id: 1763367195125-source-1763368075740-target
-      selected: false
-      source: '1763367195125'
-      sourceHandle: source
-      target: '1763368075740'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: code
-        targetType: loop
-      id: 1763368075740-source-1763368375230-target
-      selected: false
-      source: '1763368075740'
-      sourceHandle: source
-      target: '1763368375230'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
         isInLoop: true
         loop_id: '1763368375230'
         sourceType: loop-start
@@ -338,9 +312,47 @@ workflow:
         targetType: end
       id: 1763368685028-source-1763368706643-target
       selected: false
-      source: '1763368685028'
+      source: '1763368720000'
       sourceHandle: source
       target: '1763368706643'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1763368685028-1763368720000
+      selected: false
+      source: '1763368685028'
+      sourceHandle: source
+      target: '1763368720000'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1763367195125-source-1763402582227-target
+      selected: false
+      source: '1763367195125'
+      sourceHandle: source
+      target: '1763402582227'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: loop
+      id: 1763402582227-source-1763368375230-target
+      selected: false
+      source: '1763402582227'
+      sourceHandle: source
+      target: '1763368375230'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -383,14 +395,16 @@ workflow:
       width: 242
     - data:
         context:
-          enabled: false
-          variable_selector: []
+          enabled: true
+          variable_selector:
+          - '1763361675335'
+          - source_chunk
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0.3
           mode: chat
-          name: qwen3-vl-32b-thinking
-          provider: langgenius/tongyi/tongyi
+          name: Qwen/Qwen3-30B-A3B
+          provider: langgenius/siliconflow/siliconflow
         prompt_template:
         - id: 501cfc64-d860-475c-b5bf-793131a9aeb2
           role: system
@@ -401,7 +415,8 @@ workflow:
             \ false。\n3. 歧义性：如果问题严重歧义、无法判断它在问什么，且上下文也无法消除歧义，则判为 false；如果能够给出一个合理解释方向，则可以判为\
             \ true。\n\n具体规则：\n- 若上下文中出现了与问题直接相关的事实、定义、结论或推理线索 → 通常判为 true。\n- 若上下文完全没有涉及相关主题，或只是一点点模糊关联，无法支撑回答\
             \ → 判为 false。\n- 若只是缺少一些细枝末节，但主体信息齐全 → 仍然判为 true。\n- 不需要考虑答案是否优美，只关注“是否有信息可以回答”。\n\
-            \n待评估的问题：\n{{#1763361675335.query#}}\n\n请基于上述规则输出 JSON。\n"
+            \n【上下文】：\n{{#context#}}\n\n【待评估的问题】：\n{{#1763361675335.query#}}\n\n请基于上述规则输出\
+            \ JSON。\n"
         selected: false
         title: 问题合格判断
         type: llm
@@ -444,9 +459,11 @@ workflow:
           \ = False\n    if isinstance(data, dict) and \"is_valid\" in data:\n   \
           \     v = data[\"is_valid\"]\n        if isinstance(v, bool):\n        \
           \    is_valid_bool = v\n        elif isinstance(v, str):\n            is_valid_bool\
-          \ = v.strip().lower() in (\"true\", \"1\", \"yes\", \"y\")\n\n    return\
-          \ {\n        \"is_valid\": \"true\" if is_valid_bool else \"false\"\n  \
-          \  }\n"
+          \ = v.strip().lower() in (\"true\", \"1\", \"yes\", \"y\")\n    reason =\
+          \ \"\"\n    if isinstance(data, dict) and \"reason\" in data:\n        reason\
+          \ = data[\"reason\"]\n\n\n    return {\n        \"is_valid\": \"true\" if\
+          \ is_valid_bool else \"false\",\n        \"clean_response\": text,\n   \
+          \     \"reason\": reason,\n        \"raw_json\": data\n    }\n"
         code_language: python3
         outputs:
           clean_response:
@@ -457,7 +474,7 @@ workflow:
             type: string
           raw_json:
             children: null
-            type: string
+            type: object
           reason:
             children: null
             type: string
@@ -473,10 +490,10 @@ workflow:
       height: 52
       id: '1763365957228'
       position:
-        x: 684
+        x: 709.0706503046852
         y: 282
       positionAbsolute:
-        x: 684
+        x: 709.0706503046852
         y: 282
       selected: false
       sourcePosition: right
@@ -492,10 +509,10 @@ workflow:
         instructions: ''
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0.3
           mode: chat
-          name: qwen3-vl-8b-thinking
-          provider: langgenius/tongyi/tongyi
+          name: Qwen/Qwen3-30B-A3B-Instruct-2507
+          provider: langgenius/siliconflow/siliconflow
         query_variable_selector:
         - '1763361675335'
         - query
@@ -526,7 +543,7 @@ workflow:
           reranking_model:
             model: netease-youdao/bce-reranker-base_v1
             provider: langgenius/siliconflow/siliconflow
-          top_k: 4
+          top_k: 5
         query_variable_selector:
         - '1763361675335'
         - query
@@ -601,10 +618,10 @@ workflow:
       height: 124
       id: '1763366184455'
       position:
-        x: 1055.752459170974
+        x: 1056.9011575259708
         y: 282
       positionAbsolute:
-        x: 1055.752459170974
+        x: 1056.9011575259708
         y: 282
       selected: false
       sourcePosition: right
@@ -682,7 +699,7 @@ workflow:
           completion_params:
             temperature: 0.7
           mode: chat
-          name: Pro/deepseek-ai/DeepSeek-R1
+          name: deepseek-ai/DeepSeek-R1
           provider: langgenius/siliconflow/siliconflow
         prompt_config:
           jinja2_variables: []
@@ -719,54 +736,10 @@ workflow:
       height: 88
       id: '1763367195125'
       position:
-        x: 2083.967662883615
+        x: 2085.967662883615
         y: 320.2657294124139
       positionAbsolute:
-        x: 2083.967662883615
-        y: 320.2657294124139
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(rag_distill_response: str) -> dict:\n    \"\"\"\n    输入：\n\
-          \        rag_distill_response: 上游 RAG 蒸馏节点的完整输出（含 <think> 标签）\n    输出：\n\
-          \        answer: 去掉 <think> 思维链后的最终回答\n        cot:    <think>...</think>\
-          \ 中的思维链内容\n    \"\"\"\n\n    if rag_distill_response is None:\n        rag_distill_response\
-          \ = \"\"\n\n    text = rag_distill_response.strip()\n    cot = \"\"\n  \
-          \  answer = text\n\n    # 同时存在 <think> 和 </think> 才拆分\n    if \"<think>\"\
-          \ in text and \"</think>\" in text:\n        start_index = text.find(\"\
-          <think>\")\n        end_index = text.find(\"</think>\", start_index)\n\n\
-          \        if end_index != -1:\n            # 取出思维链\n            cot = text[start_index\
-          \ + len(\"<think>\"): end_index].strip()\n            # 取出思维链后面的内容作为最终回答\n\
-          \            answer = text[end_index + len(\"</think>\"):].strip()\n\n \
-          \   # 返回给 Dify 的输出变量，名字要和下面配置里的输出变量一致\n    return {\n        \"answer\"\
-          : answer,\n        \"cot\": cot,\n    }\n"
-        code_language: python3
-        outputs:
-          answer:
-            children: null
-            type: string
-          cot:
-            children: null
-            type: string
-        selected: false
-        title: COT与ANSWER分离
-        type: code
-        variables:
-        - value_selector:
-          - '1763367195125'
-          - text
-          value_type: string
-          variable: rag_distill_response
-      height: 52
-      id: '1763368075740'
-      position:
-        x: 2384.4519463171046
-        y: 320.2657294124139
-      positionAbsolute:
-        x: 2384.4519463171046
+        x: 2085.967662883615
         y: 320.2657294124139
       selected: false
       sourcePosition: right
@@ -783,7 +756,7 @@ workflow:
         - id: 6c32f350-dfd2-433e-8621-ccdd1ecd72f9
           label: answer
           value:
-          - '1763368075740'
+          - '1763402582227'
           - answer
           value_type: variable
           var_type: string
@@ -795,10 +768,10 @@ workflow:
       height: 453
       id: '1763368375230'
       position:
-        x: 2707.5991667145195
+        x: 2758.395304008329
         y: 320.2657294124139
       positionAbsolute:
-        x: 2707.5991667145195
+        x: 2758.395304008329
         y: 320.2657294124139
       selected: false
       sourcePosition: right
@@ -820,7 +793,7 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 2731.5991667145195
+        x: 2782.395304008329
         y: 388.2657294124139
       selectable: false
       sourcePosition: right
@@ -839,28 +812,19 @@ workflow:
         loop_id: '1763368375230'
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0.3
           mode: chat
-          name: qwen3-vl-32b-thinking
-          provider: langgenius/tongyi/tongyi
+          name: Qwen/Qwen3-30B-A3B-Instruct-2507
+          provider: langgenius/siliconflow/siliconflow
         prompt_template:
         - id: 202478ba-eeb6-4bbd-ac4c-09ba5e825b00
           role: system
-          text: '你是一名航天领域的问答质检专家。现在需要你根据{{#context#}}和{{#1763361675335.query#}}进行准确性与全面性检查。
-
-
-            你的任务：
-
-            1. 对照相关文本，检查回答中是否有明显错误或与文本矛盾之处。
-
-            2. 标记回答中与文本无关、推断过度或明显瞎编的内容。
-
-            3. 检查回答是否覆盖了文本中与问题紧密相关的关键信息，避免遗漏重要点。
-
-            4. 可以适当概括、合并同类项，但不要引入文本中没有依据的新结论。
-
-
-            最终请输出结构化结论（例如：是否通过校验、错误点/遗漏点简要说明），语言使用简体中文。'
+          text: "你是一名航天领域的问答质检专家。现在需要你根据{{#context#}}和{{#1763361675335.query#}}进行准确性与全面性检查。\n\
+            \n你的任务：\n1. 对照相关文本，检查回答中是否有明显错误或与文本矛盾之处。\n2. 标记回答中与文本无关、推断过度或明显瞎编的内容。\n\
+            3. 检查回答是否覆盖了文本中与问题紧密相关的关键信息，避免遗漏重要点。\n4. 可以适当概括、合并同类项，但不要引入文本中没有依据的新结论。\n\
+            \n输出格式要求：\n\n1. 在自然语言结论末尾，追加一个标记：\n   - 若通过校验，在最后一行单独输出：check_passed\n\
+            \   - 若未通过校验，在最后一行单独输出：check_failed\n\n2. 同时输出一个 JSON：\n   {\n     \"\
+            is_valid\": true/false,\n     \"reason\": \"用一两句话简要说明原因\"\n   }"
         selected: false
         title: 准确性与全面性校验
         type: llm
@@ -870,11 +834,11 @@ workflow:
       id: '1763368482856'
       parentId: '1763368375230'
       position:
-        x: 128
-        y: 68
+        x: 129.74110112659218
+        y: 65
       positionAbsolute:
-        x: 2835.5991667145195
-        y: 388.2657294124139
+        x: 2888.136405134921
+        y: 385.2657294124139
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -891,9 +855,9 @@ workflow:
           )\n        text = text[end_index + len(\"</think>\"):].strip()\n\n    #\
           \ 2. 判断是否通过校验\n    # 有 check_passed 就认为通过；有 check_failed 就认为未通过；\n    #\
           \ 如果都没有，默认未通过（你也可以按需改成默认通过）\n    passed = \"false\"\n    if \"check_passed\"\
-          \ in text:\n        passed = \"true\"\n    elif \"check_failed\" in text:\n\
-          \        passed = \"false\"\n\n    # 3. 返回给 Dify，变量名要和下方“输出变量”配置一致\n   \
-          \ return {\n        \"check_passed\": passed\n    }\n"
+          \ in text:\n        passed = \"true\"\n    else:\n        passed = \"false\"\
+          \n\n    # 3. 返回给 Dify，变量名要和下方“输出变量”配置一致\n    return {\n        \"check_passed\"\
+          : passed\n    }\n"
         code_language: python3
         isInIteration: false
         isInLoop: true
@@ -915,12 +879,12 @@ workflow:
       id: '1763368517202'
       parentId: '1763368375230'
       position:
-        x: 431.14869835499667
-        y: 68
+        x: 435.52881530313516
+        y: 65
       positionAbsolute:
-        x: 3138.747865069516
-        y: 388.2657294124139
-      selected: false
+        x: 3193.924119311464
+        y: 385.2657294124139
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -932,7 +896,7 @@ workflow:
           conditions:
           - comparison_operator: contains
             id: d05a5fa3-e387-43f9-94a0-e222ea3ca186
-            value: check_passed
+            value: 'false'
             varType: string
             variable_selector:
             - '1763368517202'
@@ -949,11 +913,11 @@ workflow:
       id: '1763368548981'
       parentId: '1763368375230'
       position:
-        x: 745.6414490985935
-        y: 68.03143313302076
+        x: 744.7320191586873
+        y: 65
       positionAbsolute:
-        x: 3453.240615813113
-        y: 388.2971625454347
+        x: 3503.127323167016
+        y: 385.2657294124139
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -973,8 +937,8 @@ workflow:
           completion_params:
             temperature: 0.7
           mode: chat
-          name: qwen3-vl-32b-thinking
-          provider: langgenius/tongyi/tongyi
+          name: Qwen/Qwen3-30B-A3B-Instruct-2507
+          provider: langgenius/siliconflow/siliconflow
         prompt_template:
         - id: d401be78-a3b5-4b69-95d4-2cc628c85278
           role: system
@@ -997,11 +961,11 @@ workflow:
       id: '1763368578143'
       parentId: '1763368375230'
       position:
-        x: 1035.7411011265922
-        y: 66.25889887340776
+        x: 1042.0090651823239
+        y: 67.30355954936306
       positionAbsolute:
-        x: 3743.3402678411117
-        y: 386.5246282858217
+        x: 3800.4043691906527
+        y: 387.569288961777
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1022,7 +986,7 @@ workflow:
         x: 1034
         y: 195
       positionAbsolute:
-        x: 3741.5991667145195
+        x: 3792.395304008329
         y: 515.265729412414
       selected: false
       sourcePosition: right
@@ -1049,7 +1013,7 @@ workflow:
           answer:
             children: null
             type: string
-        selected: true
+        selected: false
         title: 改写后answer提取
         type: code
         variables:
@@ -1057,7 +1021,7 @@ workflow:
           - '1763368578143'
           - text
           value_type: string
-          variable: rewritten_response
+          variable: rewritten_respc
       height: 52
       id: '1763368621379'
       parentId: '1763368375230'
@@ -1065,9 +1029,9 @@ workflow:
         x: 1336
         y: 68
       positionAbsolute:
-        x: 4043.5991667145195
+        x: 4094.395304008329
         y: 388.2657294124139
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1098,7 +1062,7 @@ workflow:
         x: 1638
         y: 68
       positionAbsolute:
-        x: 4345.599166714519
+        x: 4396.395304008329
         y: 388.2657294124139
       selected: false
       sourcePosition: right
@@ -1114,13 +1078,13 @@ workflow:
           completion_params:
             temperature: 0.7
           mode: chat
-          name: qwen3-vl-32b-thinking
-          provider: langgenius/tongyi/tongyi
+          name: Qwen/Qwen3-30B-A3B-Instruct-2507
+          provider: langgenius/siliconflow/siliconflow
         prompt_template:
         - id: 04daa0c1-f340-4d91-9eb9-2649844480b1
           role: system
           text: "你是一名负责“思维链优化”的助手。\n\n现在给你：\n- 问题：{{#1763361675335.query#}}\n- 问题来源文本：{{#1763361675335.source_chunk#}}\n\
-            - 原始答案：{{#1763368375230.answer#}}\n- 原始思维链：{{#1763368075740.cot#}}\n\n\
+            - 原始答案：{{#1763368375230.answer#}}\n- 原始思维链：{{#1763402582227.cot#}}\n\n\
             你的任务：在不改变结论方向的前提下，基于问题与相关文本，改写并优化这条思维链，使其更清晰、逻辑更严谨，可作为训练用的推理过程。\n\n请严格遵守以下要求：\n\
             1. 只输出优化后的思维链，不要输出答案本身，也不要解释你在做什么。\n2. 思维链必须围绕上述“问题”展开，步骤清晰、有因有果，能合理推导出原始答案。\n\
             3. 不要出现下列内容：\n   - “优化后的思维链”“如下所示”“根据上文/原文/片段”等元描述；\n   - 对未来模型的指导语（如“模型应该先做什么再做什么”）；\n\
@@ -1204,7 +1168,7 @@ workflow:
           value_type: string
           variable: query_is_valid
         - value_selector:
-          - '1763368075740'
+          - '1763402582227'
           - cot
           value_type: string
           variable: first_rag_answer
@@ -1218,16 +1182,148 @@ workflow:
           - class_name
           value_type: string
           variable: query_class_name
+        - value_selector:
+          - '1763368720000'
+          - quality_score
+          value_type: number
+          variable: quality_score
+        - value_selector:
+          - '1763368720000'
+          - quality_level
+          value_type: string
+          variable: quality_level
+        - value_selector:
+          - '1763368720000'
+          - score_breakdown
+          value_type: string
+          variable: quality_details
         selected: false
         title: 改写结果
         type: end
-      height: 192
+      height: 270
       id: '1763368706643'
       position:
-        x: 5245.683995581579
+        x: 5565.500191115272
         y: 320.2657294124139
       positionAbsolute:
-        x: 5245.683995581579
+        x: 5565.500191115272
+        y: 320.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(\n    answer: str,\n    cot: str,\n    check_passed: str,\n\
+          \    retrieval_results: list\n) -> dict:\n    \"\"\"计算QA对质量分数\"\"\"\n  \
+          \  score = 100.0\n    reasons = []\n    \n    # 答案长度评分\n    answer_len =\
+          \ len(answer) if answer else 0\n    if answer_len < 50:\n        score -=\
+          \ 25\n        reasons.append(\"答案过短\")\n    elif answer_len < 100:\n   \
+          \     score -= 10\n        reasons.append(\"答案较短\")\n    elif answer_len\
+          \ > 2000:\n        score -= 10\n        reasons.append(\"答案较长\")\n    \n\
+          \    # 思维链长度评分\n    cot_len = len(cot) if cot else 0\n    if cot_len < 20:\n\
+          \        score -= 15\n        reasons.append(\"思维链过短\")\n    \n    # 校验结果评分\n\
+          \    if check_passed != \"true\":\n        score -= 25\n        reasons.append(\"\
+          未通过最终校验\")\n    \n    # 检索结果数量\n    retrieval_count = len(retrieval_results)\
+          \ if isinstance(retrieval_results, list) else 0\n    if retrieval_count\
+          \ < 2:\n        score -= 15\n        reasons.append(\"检索结果较少\")\n    \n\
+          \    score = max(0, min(100, score))\n    \n    if score >= 85:\n      \
+          \  quality_level = \"excellent\"\n    elif score >= 70:\n        quality_level\
+          \ = \"good\"\n    elif score >= 55:\n        quality_level = \"fair\"\n\
+          \    else:\n        quality_level = \"poor\"\n    \n    return {\n     \
+          \   \"quality_score\": round(score, 1),\n        \"quality_level\": quality_level,\n\
+          \        \"score_breakdown\": \" | \".join(reasons) if reasons else \"无扣分项\"\
+          ,\n        \"answer_length\": answer_len,\n        \"cot_length\": cot_len,\n\
+          \        \"retrieval_count\": retrieval_count\n    }\n"
+        code_language: python3
+        outputs:
+          answer_length:
+            type: number
+          cot_length:
+            type: number
+          quality_level:
+            type: string
+          quality_score:
+            type: number
+          retrieval_count:
+            type: number
+          score_breakdown:
+            type: string
+        selected: false
+        title: 质量分数计算
+        type: code
+        variables:
+        - value_selector:
+          - '1763368375230'
+          - answer
+          value_type: string
+          variable: answer
+        - value_selector:
+          - '1763402582227'
+          - cot
+          value_type: string
+          variable: cot
+        - value_selector:
+          - '1763365957228'
+          - is_valid
+          value_type: string
+          variable: check_passed
+        - value_selector:
+          - '1763366129870'
+          - result
+          value_type: array[object]
+          variable: retrieval_results
+      height: 52
+      id: '1763368720000'
+      position:
+        x: 5242.514650641663
+        y: 320.2657294124139
+      positionAbsolute:
+        x: 5242.514650641663
+        y: 320.2657294124139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(rag_distill_response: str) -> dict:\n    \"\"\"\n    输入：\n\
+          \        rag_distill_response: 上游 RAG 蒸馏节点的完整输出（含 <think> 标签）\n    输出：\n\
+          \        answer: 去掉 <think> 思维链后的最终回答\n        cot:    <think>...</think>\
+          \ 中的思维链内容\n    \"\"\"\n\n    if rag_distill_response is None:\n        rag_distill_response\
+          \ = \"\"\n\n    text = rag_distill_response.strip()\n    cot = \"\"\n  \
+          \  answer = text\n\n    # 同时存在 <think> 和 </think> 才拆分\n    if \"<think>\"\
+          \ in text and \"</think>\" in text:\n        start_index = text.find(\"\
+          <think>\")\n        end_index = text.find(\"</think>\", start_index)\n\n\
+          \        if end_index != -1:\n            # 取出思维链\n            cot = text[start_index\
+          \ + len(\"<think>\"): end_index].strip()\n            # 取出思维链后面的内容作为最终回答\n\
+          \            answer = text[end_index + len(\"</think>\"):].strip()\n\n \
+          \   # 返回给 Dify 的输出变量，名字要和下面配置里的输出变量一致\n    return {\n        \"answer\"\
+          : answer,\n        \"cot\": cot,\n    }\n"
+        code_language: python3
+        outputs:
+          answer:
+            children: null
+            type: string
+          cot:
+            children: null
+            type: string
+        selected: false
+        title: COT与ANSWER分离
+        type: code
+        variables:
+        - value_selector:
+          - '1763367195125'
+          - text
+          value_type: string
+          variable: rag_distill_response
+      height: 52
+      id: '1763402582227'
+      position:
+        x: 2402.4838734710515
+        y: 320.2657294124139
+      positionAbsolute:
+        x: 2402.4838734710515
         y: 320.2657294124139
       selected: false
       sourcePosition: right
@@ -1235,7 +1331,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -2689.2353238231294
-      y: -18.406250157818818
-      zoom: 0.8705505632961257
+      x: -2418.2362488528233
+      y: 241.9548041839055
+      zoom: 0.5743491774985174
   rag_pipeline_variables: []

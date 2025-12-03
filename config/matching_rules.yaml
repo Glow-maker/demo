@@ -1,0 +1,133 @@
+# Schema and Entity Matching Rules Configuration
+
+# Schema Matching Rules
+schema_matching:
+  # Minimum confidence threshold for accepting a match
+  similarity_threshold: 0.7
+  
+  # Domain-specific synonyms
+  synonyms:
+    customer:
+      - client
+      - user
+      - account
+      - member
+    product:
+      - item
+      - goods
+      - merchandise
+      - sku
+    price:
+      - cost
+      - amount
+      - value
+      - rate
+    quantity:
+      - qty
+      - count
+      - amount
+      - stock
+  
+  # Type compatibility rules
+  type_compatibility:
+    integer:
+      - INT
+      - INTEGER
+      - BIGINT
+      - SMALLINT
+      - TINYINT
+    decimal:
+      - DECIMAL
+      - NUMERIC
+      - FLOAT
+      - DOUBLE
+      - REAL
+    string:
+      - VARCHAR
+      - CHAR
+      - TEXT
+      - STRING
+    datetime:
+      - DATETIME
+      - TIMESTAMP
+      - DATE
+      - TIME
+
+# Entity Matching Rules
+entity_matching:
+  # Minimum confidence threshold for accepting a match
+  match_threshold: 0.8
+  
+  # Domain-specific knowledge
+  domains:
+    company:
+      key_attributes:
+        - name
+        - location
+        - founded
+      optional_attributes:
+        - industry
+        - employees
+        - website
+      name_variations:
+        - "Inc."
+        - "LLC"
+        - "Ltd."
+        - "Corporation"
+        - "Corp."
+        - "公司"
+        - "有限公司"
+    
+    person:
+      key_attributes:
+        - name
+        - email
+      optional_attributes:
+        - phone
+        - title
+        - department
+      name_patterns:
+        - full_name
+        - first_last
+        - last_first
+        - abbreviated
+  
+  # Fuzzy matching parameters
+  fuzzy_matching:
+    enabled: true
+    algorithm: "levenshtein"
+    threshold: 0.85
+  
+  # Language handling
+  multilingual:
+    enabled: true
+    translation_required: false
+    supported_languages:
+      - en
+      - zh
+      - es
+      - fr
+      - de
+      - ja
+
+# Performance Settings
+performance:
+  # Batch processing
+  batch_size: 10
+  parallel_workers: 4
+  
+  # Caching
+  enable_cache: true
+  cache_ttl: 3600  # seconds
+  
+  # Rate limiting
+  requests_per_minute: 60
+  retry_on_failure: true
+  max_retries: 3
+
+# Output Settings
+output:
+  format: "json"  # json, csv, or database
+  include_reasoning: true
+  include_confidence: true
+  detailed_report: false

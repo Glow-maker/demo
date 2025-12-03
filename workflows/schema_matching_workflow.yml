@@ -1,0 +1,270 @@
+app:
+  description: KcMF模式匹配工作流 - 自动识别不同数据源之间的字段对应关系
+  icon: 🔄
+  icon_background: '#E3F2FD'
+  mode: workflow
+  name: kcmf_schema_matching
+  use_icon_as_answer_icon: false
+
+kind: app
+version: 0.4.0
+
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  
+  features:
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+  
+  graph:
+    edges:
+      - data:
+          isInIteration: false
+          isInLoop: false
+          sourceType: start
+          targetType: llm
+        id: start-llm-1
+        source: start
+        sourceHandle: source
+        target: llm-1
+        targetHandle: target
+        type: custom
+      
+      - data:
+          isInIteration: false
+          isInLoop: false
+          sourceType: llm
+          targetType: code
+        id: llm-1-code-1
+        source: llm-1
+        sourceHandle: source
+        target: code-1
+        targetHandle: target
+        type: custom
+      
+      - data:
+          isInIteration: false
+          isInLoop: false
+          sourceType: code
+          targetType: end
+        id: code-1-end
+        source: code-1
+        sourceHandle: source
+        target: end
+        targetHandle: target
+        type: custom
+    
+    nodes:
+      # 开始节点 - 输入两个模式
+      - data:
+          title: 开始
+          type: start
+          variables:
+            - label: schema_a
+              max_length: 5000
+              required: true
+              type: paragraph
+              variable: schema_a
+              hint: "第一个数据库模式（JSON格式）"
+            - label: schema_b
+              max_length: 5000
+              required: true
+              type: paragraph
+              variable: schema_b
+              hint: "第二个数据库模式（JSON格式）"
+            - label: context
+              max_length: 1000
+              required: false
+              type: text-input
+              variable: context
+              hint: "可选：额外的上下文信息"
+        id: start
+        position:
+          x: 100
+          y: 200
+        type: custom
+      
+      # LLM节点 - 执行模式匹配
+      - data:
+          title: 模式匹配LLM
+          type: llm
+          model:
+            mode: chat
+            name: gpt-4
+            provider: openai
+            completion_params:
+              temperature: 0.3
+              max_tokens: 2000
+          prompt_template:
+            - role: system
+              text: |
+                你是一个数据库模式匹配专家。你的任务是识别两个数据库模式之间字段的对应关系。
+                
+                请仔细分析以下因素：
+                1. 字段名称的语义相似性（不仅仅是字面相似）
+                2. 数据类型的兼容性
+                3. 字段描述和含义
+                4. 上下文信息
+                
+                对于每个匹配，评估置信度（0-1之间的小数）：
+                - 0.9-1.0: 非常确定的匹配
+                - 0.7-0.9: 可能的匹配
+                - 0.5-0.7: 不太确定
+                - <0.5: 不推荐
+                
+                以JSON格式返回结果，格式如下：
+                {
+                  "matches": [
+                    {
+                      "source_field": "字段名",
+                      "target_field": "字段名",
+                      "confidence": 0.95,
+                      "reasoning": "匹配原因说明"
+                    }
+                  ]
+                }
+            
+            - role: user
+              text: |
+                模式A：
+                {{#start.schema_a#}}
+                
+                模式B：
+                {{#start.schema_b#}}
+                
+                {% if start.context %}
+                额外上下文：
+                {{#start.context#}}
+                {% endif %}
+                
+                请识别这两个模式之间的字段对应关系。
+        id: llm-1
+        position:
+          x: 400
+          y: 200
+        type: custom
+      
+      # 代码节点 - 解析和格式化结果
+      - data:
+          title: 结果处理
+          type: code
+          code_language: python3
+          code: |
+            import json
+            import re
+            
+            def main(llm_response: str) -> dict:
+                """解析LLM响应并格式化结果"""
+                
+                # 提取JSON
+                json_match = re.search(r'```json\s*(.*?)\s*```', llm_response, re.DOTALL)
+                if json_match:
+                    json_str = json_match.group(1)
+                else:
+                    json_match = re.search(r'\{.*\}', llm_response, re.DOTALL)
+                    if json_match:
+                        json_str = json_match.group(0)
+                    else:
+                        return {
+                            "success": False,
+                            "error": "无法从响应中提取JSON",
+                            "raw_response": llm_response
+                        }
+                
+                try:
+                    result = json.loads(json_str)
+                    matches = result.get('matches', [])
+                    
+                    # 过滤低置信度匹配
+                    high_confidence_matches = [
+                        m for m in matches 
+                        if m.get('confidence', 0) >= 0.7
+                    ]
+                    
+                    # 生成摘要
+                    summary = f"找到 {len(matches)} 个潜在匹配，其中 {len(high_confidence_matches)} 个高置信度匹配"
+                    
+                    return {
+                        "success": True,
+                        "total_matches": len(matches),
+                        "high_confidence_matches": len(high_confidence_matches),
+                        "matches": matches,
+                        "summary": summary,
+                        "formatted_output": json.dumps(matches, ensure_ascii=False, indent=2)
+                    }
+                
+                except json.JSONDecodeError as e:
+                    return {
+                        "success": False,
+                        "error": f"JSON解析错误: {str(e)}",
+                        "raw_response": llm_response
+                    }
+          variables:
+            - value_selector:
+                - llm-1
+                - text
+              value_type: string
+              variable: llm_response
+          outputs:
+            success:
+              type: string
+            total_matches:
+              type: number
+            high_confidence_matches:
+              type: number
+            matches:
+              type: array[object]
+            summary:
+              type: string
+            formatted_output:
+              type: string
+            error:
+              type: string
+            raw_response:
+              type: string
+        id: code-1
+        position:
+          x: 700
+          y: 200
+        type: custom
+      
+      # 结束节点 - 输出结果
+      - data:
+          title: 匹配结果
+          type: end
+          outputs:
+            - value_selector:
+                - code-1
+                - summary
+              value_type: string
+              variable: summary
+            - value_selector:
+                - code-1
+                - formatted_output
+              value_type: string
+              variable: matches
+            - value_selector:
+                - code-1
+                - total_matches
+              value_type: number
+              variable: total_matches
+            - value_selector:
+                - code-1
+                - high_confidence_matches
+              value_type: number
+              variable: high_confidence_matches
+        id: end
+        position:
+          x: 1000
+          y: 200
+        type: custom

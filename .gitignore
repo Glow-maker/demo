@@ -1,0 +1,97 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Configuration files with secrets
+config/llm_config.yaml
+.env
+.env.local
+.env.prod
+
+# Logs
+*.log
+logs/
+/var/log/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache
+.cache/
+*.cache
+.pytest_cache/
+
+# Temporary files
+/tmp/
+*.tmp
+temp/
+
+# Backup files
+*.bak
+*.backup
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Test outputs
+test_outputs/
+test_results/
+
+# Documentation builds
+docs/_build/
+
+# Package files
+*.tar.gz
+*.zip
+
+# Model files (if storing locally)
+models/
+*.pkl
+*.pth
+*.h5
+
+# Generated files
+etl_mapping.json
+migration.sql

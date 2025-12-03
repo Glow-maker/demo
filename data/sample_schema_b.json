@@ -1,0 +1,46 @@
+{
+  "database": "target_database",
+  "table": "items",
+  "columns": [
+    {
+      "name": "item_id",
+      "type": "INT",
+      "description": "Unique item ID"
+    },
+    {
+      "name": "item_name",
+      "type": "TEXT",
+      "description": "Item description"
+    },
+    {
+      "name": "unit_price",
+      "type": "NUMERIC",
+      "description": "Price per unit"
+    },
+    {
+      "name": "available_qty",
+      "type": "INT",
+      "description": "Quantity in stock"
+    },
+    {
+      "name": "category",
+      "type": "TEXT",
+      "description": "Product category name"
+    },
+    {
+      "name": "brand",
+      "type": "TEXT",
+      "description": "Brand or manufacturer"
+    },
+    {
+      "name": "added_on",
+      "type": "TIMESTAMP",
+      "description": "Timestamp of item creation"
+    },
+    {
+      "name": "supplier_id",
+      "type": "INT",
+      "description": "Supplier identifier"
+    }
+  ]
+}

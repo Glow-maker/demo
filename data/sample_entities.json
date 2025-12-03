@@ -1,0 +1,67 @@
+[
+  {
+    "id": "1",
+    "name": "Apple Inc.",
+    "name_zh": "苹果公司",
+    "location": "Cupertino, California, USA",
+    "industry": "Technology",
+    "founded": "1976",
+    "employees": "164000",
+    "website": "https://www.apple.com"
+  },
+  {
+    "id": "2",
+    "name": "APPLE INC",
+    "location": "Cupertino, CA",
+    "industry": "Tech",
+    "founded": "1976",
+    "stock_ticker": "AAPL"
+  },
+  {
+    "id": "3",
+    "name": "Microsoft Corporation",
+    "location": "Redmond, Washington, USA",
+    "industry": "Technology",
+    "founded": "1975",
+    "employees": "221000",
+    "website": "https://www.microsoft.com"
+  },
+  {
+    "id": "4",
+    "name": "微软公司",
+    "location": "美国华盛顿州雷德蒙德",
+    "industry": "科技",
+    "founded": "1975年"
+  },
+  {
+    "id": "5",
+    "name": "Google LLC",
+    "location": "Mountain View, California",
+    "industry": "Technology",
+    "founded": "1998",
+    "parent_company": "Alphabet Inc."
+  },
+  {
+    "id": "6",
+    "name": "谷歌有限责任公司",
+    "location": "加利福尼亚州山景城",
+    "industry": "互联网",
+    "founded": "1998"
+  },
+  {
+    "id": "7",
+    "name": "Tesla, Inc.",
+    "location": "Austin, Texas, USA",
+    "industry": "Automotive",
+    "founded": "2003",
+    "ceo": "Elon Musk"
+  },
+  {
+    "id": "8",
+    "name": "Amazon.com, Inc.",
+    "location": "Seattle, Washington",
+    "industry": "E-commerce",
+    "founded": "1994",
+    "employees": "1540000"
+  }
+]

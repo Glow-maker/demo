@@ -1,0 +1,42 @@
+# LLM Configuration
+# Copy this file to llm_config.yaml and add your API keys
+
+# OpenAI Configuration
+openai:
+  api_key: "your-openai-api-key-here"
+  model: "gpt-4"
+  base_url: null  # Optional: custom API endpoint
+  temperature: 0.3
+  max_tokens: 2000
+
+# Qwen (通义千问) Configuration
+qwen:
+  api_key: "your-qwen-api-key-here"
+  model: "qwen-plus"
+  base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  temperature: 0.3
+  max_tokens: 2000
+
+# GLM (智谱AI) Configuration
+glm:
+  api_key: "your-glm-api-key-here"
+  model: "glm-4"
+  base_url: "https://open.bigmodel.cn/api/paas/v4"
+  temperature: 0.3
+  max_tokens: 2000
+
+# Anthropic Claude Configuration
+anthropic:
+  api_key: "your-anthropic-api-key-here"
+  model: "claude-3-opus-20240229"
+  temperature: 0.3
+  max_tokens: 2000
+
+# Default provider to use
+default_provider: "openai"
+
+# Advanced settings
+retry_attempts: 3
+timeout_seconds: 60
+enable_caching: true
+cache_ttl_seconds: 3600

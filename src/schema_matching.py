@@ -5,7 +5,11 @@ Implements schema matching using LLMs without fine-tuning
 
 from typing import Dict, List, Optional, Tuple, Any
 import json
-from .llm_interface import LLMInterface
+
+try:
+    from .llm_interface import LLMInterface
+except ImportError:
+    from llm_interface import LLMInterface
 
 
 class SchemaMatching:

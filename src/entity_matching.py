@@ -5,7 +5,11 @@ Implements entity matching using LLMs without fine-tuning
 
 from typing import Dict, List, Optional, Any
 import json
-from .llm_interface import LLMInterface
+
+try:
+    from .llm_interface import LLMInterface
+except ImportError:
+    from llm_interface import LLMInterface
 
 
 class EntityMatching:
